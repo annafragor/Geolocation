@@ -3,9 +3,7 @@ from statistics import median
 
 class Node:
     def __init__(self, intervals=None):
-        # begin_sorted_input_intervals = None
         if intervals:
-            # intervals = sorted(intervals, key=lambda interval: interval.begin_point)
             self.x_center = self._calculate_x_center(intervals)
 
         else:
@@ -24,9 +22,6 @@ class Node:
                 points_arr.append(interval.begin_point)
                 points_arr.append(interval.end_point)
             center = median(points_arr)
-            # beg_sorted = sorted(intervals, key=lambda interval: interval.begin_point)
-            # end_sorted = sorted(intervals, key=lambda interval: interval.end_point)
-            # center = (intervals[0].begin_point + end_sorted[-1].end_point) // 2
             return center
 
         else:
@@ -90,15 +85,15 @@ class Node:
         i = 0
 
         if end_sorted:
-            while i < len(self.center_intervals.end_sorted) and point <= self.center_intervals.end_sorted[
-                        -i - 1].end_point:
+            while i < len(self.center_intervals.end_sorted) and \
+                            point <= self.center_intervals.end_sorted[-i - 1].end_point:
                 if self.center_intervals.end_sorted[-i - 1].contain(point) == 0:
                     res.append(self.center_intervals.end_sorted[-i - 1])
                 i += 1
 
         else:
-            while i < len(self.center_intervals.begin_sorted) and point >= self.center_intervals.begin_sorted[
-                i].begin_point:
+            while i < len(self.center_intervals.begin_sorted) and \
+                            point >= self.center_intervals.begin_sorted[i].begin_point:
 
                 if self.center_intervals.begin_sorted[i].contain(point) == 0:
                     res.append(self.center_intervals.begin_sorted[i])
