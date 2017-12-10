@@ -1,5 +1,6 @@
 from src.centeredIntervalTree import CenteredIntervalTree
 from src.interval import Interval
+import sys
 import re
 
 
@@ -10,7 +11,13 @@ def read_file(filename):
         'intervals': []
     }
 
-    file = open(filename, 'r')
+    try:
+        file = open(filename, 'r')
+
+    except:
+        print('Wrong path to input file!')
+        return None
+
     line = file.readline()
     match_x = re.match(r'\s*(-?\d+)\s*$', line)
 
@@ -23,9 +30,7 @@ def read_file(filename):
 
     line = file.readline()
     while line:
-        m = re.match(
-            r'\[\s*(?P<begin_point>(-?\d+))\s*,\s*(?P<end_point>(-?\d+))\]\s+(?P<weight>(-?\d+))', line)
-
+        m = re.match(r'\[\s*(?P<begin_point>(-?\d+))\s*,\s*(?P<end_point>(-?\d+))\]\s+(?P<weight>(-?\d+))', line)
         if m:
             parcing_result['intervals'].append(Interval(int(m.group('begin_point')),
                                                         int(m.group('end_point')),
@@ -49,23 +54,31 @@ def print_result(filename, result):
 
 
 if __name__ == "__main__":
-    input_data = read_file('input.txt')
-    intervals = []
+    args = sys.argv
+    if len(args) == 3:
+        input_file = args[1]
+        output_file = args[2]
+        input_data = read_file(input_file)
+        intervals = []
 
-    if input_data:
-        control_point = input_data['point']
-        intervals = input_data['intervals']
-        print('control point:', control_point)
-        tree = CenteredIntervalTree(intervals)
-        resulting_location = tree.find_location(control_point)
+        if input_data:
+            control_point = input_data['point']
+            intervals = input_data['intervals']
 
-        if resulting_location:
-            print_result('result.txt',
-                         'Control point: {} was found in interval [{}:{}] with weight = {}.'.format(
-                             control_point,
-                             resulting_location.begin_point,
-                             resulting_location.end_point,
-                             resulting_location.weight
-                         ))
-        else:
-            print_result('result.txt', 'Control point: {} was not found in input intervals.'.format(control_point))
+            tree = CenteredIntervalTree(intervals)
+            resulting_location = tree.find_location(control_point)
+            if resulting_location:
+                print_result(output_file,
+                             'Control point: {} was found in interval [{}:{}] with weight = {}.'.format(
+                                 control_point,
+                                 resulting_location.begin_point,
+                                 resulting_location.end_point,
+                                 resulting_location.weight
+                             ))
+
+            else:
+                print_result(output_file, 'Control point: {} was not found in input intervals.'.format(control_point))
+
+    else:
+        print('Wrong input arguments! You should enter 2 filenames.')
+

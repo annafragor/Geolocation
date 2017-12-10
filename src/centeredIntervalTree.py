@@ -10,13 +10,7 @@ class CenteredIntervalTree:
         return self.root.__str__()
 
     def find_location(self, point):
-        print('before find')
-
         result_intervals = self.root.find(point)
-        for i in result_intervals:
-            print(i)
-
-        print('after find')
 
         if result_intervals:
             result_location = sorted(result_intervals, key=lambda interval: interval.weight)[-1]

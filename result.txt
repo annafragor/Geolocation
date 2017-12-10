@@ -1,1 +1,1 @@
-Control point: 4 was found in interval [0:5] with weight = 5.
+Control point: 1 was found in interval [0:2] with weight = 7.
