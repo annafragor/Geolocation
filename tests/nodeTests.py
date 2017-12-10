@@ -11,7 +11,7 @@ class TestNodeMethods(unittest.TestCase):
             Interval(3, 4, 0),
             Interval(5, 6, 0)
         ]
-        self.assertEqual(Node()._calculate_x_center(ints1), 3)
+        self.assertEqual(Node()._calculate_x_center(ints1), 3.5)
 
         # частично пересекающиеся интервалы, весь диапазон == 6
         ints2 = [
@@ -19,7 +19,7 @@ class TestNodeMethods(unittest.TestCase):
             Interval(1, 3, 0),
             Interval(4, 6, 0)
         ]
-        self.assertEqual(Node()._calculate_x_center(ints2), 3)
+        self.assertEqual(Node()._calculate_x_center(ints2), 2.5)
 
         # все интервалы покрываются одним, весь диапазон == 21
         ints3 = [
@@ -28,10 +28,10 @@ class TestNodeMethods(unittest.TestCase):
             Interval(10, 15, 0),
             Interval(12, 17, 0)
         ]
-        self.assertEqual(Node()._calculate_x_center(ints3), 10)
+        self.assertEqual(Node()._calculate_x_center(ints3), 11)
 
     def test_set_intervals(self):
-        # Вершина с двумя сыновями (ok)
+        # Вершина с двумя сыновями
         ints1 = [
             Interval(0, 2, 0),
             Interval(3, 4, 0),
@@ -45,7 +45,7 @@ class TestNodeMethods(unittest.TestCase):
         self.assertEqual(node1.center_intervals.begin_sorted,
                          [Interval(3, 4, 0), ])
 
-        # Вершина без сыновей (ok)
+        # Вершина без сыновей
         ints2 = [
             Interval(0, 2, 0),
         ]
@@ -56,32 +56,6 @@ class TestNodeMethods(unittest.TestCase):
                          None)
         self.assertEqual(node2.center_intervals.begin_sorted,
                          [Interval(0, 2, 0), ])
-
-        # Вершина с одним правым сыном
-        ints3 = [
-            Interval(5, 6, 0),
-            Interval(3, 4, 0)
-        ]
-        node3 = Node(ints3)
-        self.assertEqual(node3.left_int.center_intervals,
-                         None)
-        self.assertEqual(node3.right_int.center_intervals.begin_sorted,
-                         [Interval(5, 6, 0), ])
-        self.assertEqual(node3.center_intervals.begin_sorted,
-                         [Interval(3, 4, 0), ])
-
-        # Вершина с одним левым сыном (ok)
-        ints4 = [
-            Interval(0, 2, 0),
-            Interval(1, 6, 0)
-        ]
-        node4 = Node(ints4)
-        self.assertEqual(node4.left_int.center_intervals.begin_sorted,
-                         [Interval(0, 2, 0), ])
-        self.assertEqual(node4.right_int.center_intervals,
-                         None)
-        self.assertEqual(node4.center_intervals.begin_sorted,
-                         [Interval(1, 6, 0), ])
 
     def test_get_from_sorted(self):
         node = Node()

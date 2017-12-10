@@ -1,24 +1,32 @@
+from statistics import median
+
+
 class Node:
     def __init__(self, intervals=None):
-        begin_sorted_input_intervals = None
+        # begin_sorted_input_intervals = None
         if intervals:
-            begin_sorted_input_intervals = sorted(intervals, key=lambda interval: interval.begin_point)
-            self.x_center = self._calculate_x_center(begin_sorted_input_intervals)
+            # intervals = sorted(intervals, key=lambda interval: interval.begin_point)
+            self.x_center = self._calculate_x_center(intervals)
 
         else:
             self.x_center = None
 
         self.left_int, self.right_int, self.center_intervals = None, None, None
         if not self.x_center is None:
-            self.set_intervals(begin_sorted_input_intervals)
+            self.set_intervals(intervals)
 
     @staticmethod
-    def _calculate_x_center(begin_sorted):  # серидина диапазонов всех интервалов
+    def _calculate_x_center(intervals):  # серидина диапазонов всех интервалов
         # test
-        if begin_sorted:
+        if intervals:
+            points_arr = []
+            for interval in intervals:
+                points_arr.append(interval.begin_point)
+                points_arr.append(interval.end_point)
+            center = median(points_arr)
             # beg_sorted = sorted(intervals, key=lambda interval: interval.begin_point)
-            end_sorted = sorted(begin_sorted, key=lambda interval: interval.end_point)
-            center = (begin_sorted[0].begin_point + end_sorted[-1].end_point) // 2
+            # end_sorted = sorted(intervals, key=lambda interval: interval.end_point)
+            # center = (intervals[0].begin_point + end_sorted[-1].end_point) // 2
             return center
 
         else:
@@ -100,10 +108,9 @@ class Node:
 
 
 class CenterIntervals:
-    def __init__(self, beg_sorted_center_intervals):
-        # self.begin_sorted = sorted(center_intervals, key=lambda interval: interval.begin_point)  # по возр
-        self.begin_sorted = beg_sorted_center_intervals
-        self.end_sorted = sorted(beg_sorted_center_intervals, key=lambda interval: interval.end_point)
+    def __init__(self, intervals):
+        self.begin_sorted = sorted(intervals, key=lambda interval: interval.begin_point)  # по возр
+        self.end_sorted = sorted(intervals, key=lambda interval: interval.end_point)
 
     def __str__(self):
         res = ''
