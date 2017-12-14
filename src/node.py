@@ -27,23 +27,23 @@ class Node:
         else:
             return None
 
-    def set_intervals(self, begin_sorted_intervals):
+    def set_intervals(self, intervals):
         # test
-        left_intervals, beg_sorted_center_intervals, right_intervals = [], [], []
-        if begin_sorted_intervals:
-            for interval in begin_sorted_intervals:
+        left_intervals, center_intervals, right_intervals = [], [], []
+        if intervals:
+            for interval in intervals:
                 if interval.contain(self.x_center) < 0:
                     left_intervals.append(interval)
 
                 elif interval.contain(self.x_center) == 0:
-                    beg_sorted_center_intervals.append(interval)  # получаются тоже отсортированными по beg_point
+                    center_intervals.append(interval)  # получаются тоже отсортированными по beg_point
 
                 else:
                     right_intervals.append(interval)
 
         self.left_int = Node(left_intervals)
         self.right_int = Node(right_intervals)
-        self.center_intervals = CenterIntervals(beg_sorted_center_intervals)
+        self.center_intervals = CenterIntervals(center_intervals)
 
     def __str__(self):
         node_str = ''

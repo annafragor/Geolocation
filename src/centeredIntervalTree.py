@@ -4,7 +4,6 @@ from src.node import Node
 class CenteredIntervalTree:
     def __init__(self, intervals):  # дерево инициализируется массивом интервалов
         self.root = Node(intervals)
-        self.size = len(intervals)
 
     def __str__(self):
         return self.root.__str__()
